@@ -1,0 +1,67 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block content %}
+  <section class="hero">
+    <h2>Authenticated sneakers, ready for their next chapter.</h2>
+    <p>Search our curated inventory or consign your pairs with {{ site_brand }}.</p>
+    <a class="btn" href="{% url 'marketplace:listing-create' %}">Submit a Listing</a>
+  </section>
+
+  <section class="filters">
+    <form method="get" class="filter-form">
+      <label>
+        Brand
+        <select name="brand">
+          <option value="">All</option>
+          {% for brand in brands %}
+            <option value="{{ brand.slug }}" {% if active_filters.brand == brand.slug %}selected{% endif %}>{{ brand.name }} ({{ brand.total }})</option>
+          {% endfor %}
+        </select>
+      </label>
+      <label>
+        Size
+        <input type="text" name="size" placeholder="e.g. 10" value="{{ active_filters.size }}" />
+      </label>
+      <label>
+        Condition
+        <select name="condition">
+          <option value="">All</option>
+          {% for value, label in conditions %}
+            <option value="{{ value }}" {% if active_filters.condition == value %}selected{% endif %}>{{ label }}</option>
+          {% endfor %}
+        </select>
+      </label>
+      <button type="submit" class="btn secondary">Apply</button>
+      <a class="btn link" href="{% url 'marketplace:shoe-list' %}">Reset</a>
+    </form>
+  </section>
+
+  <section class="grid">
+    {% for shoe in shoes %}
+      <article class="card">
+        <h3><a href="{{ shoe.get_absolute_url }}">{{ shoe.brand.name }} {{ shoe.name }}</a></h3>
+        <p class="meta">Size {{ shoe.size }} · {{ shoe.get_condition_display }}</p>
+        <p class="price">${{ shoe.asking_price }}</p>
+        {% if shoe.retail_price %}
+          <p class="retail">Retail: ${{ shoe.retail_price }} · Margin: {{ shoe.margin|floatformat:1 }}%</p>
+        {% endif %}
+        <p class="description">{{ shoe.description|truncatewords:20 }}</p>
+      </article>
+    {% empty %}
+      <p>No sneakers matched your filters. Try adjusting your search or <a href="{% url 'marketplace:listing-create' %}">submit a new listing</a>.</p>
+    {% endfor %}
+  </section>
+
+  {% if is_paginated %}
+    <nav class="pagination">
+      {% if page_obj.has_previous %}
+        <a href="?page={{ page_obj.previous_page_number }}" class="btn secondary">Previous</a>
+      {% endif %}
+      <span>Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}</span>
+      {% if page_obj.has_next %}
+        <a href="?page={{ page_obj.next_page_number }}" class="btn secondary">Next</a>
+      {% endif %}
+    </nav>
+  {% endif %}
+{% endblock %}
