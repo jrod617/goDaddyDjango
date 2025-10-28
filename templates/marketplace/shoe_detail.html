@@ -1,0 +1,18 @@
+{% extends "base.html" %}
+
+{% block content %}
+  <article class="detail">
+    <h2>{{ shoe.brand.name }} {{ shoe.name }}</h2>
+    <p class="meta">Size {{ shoe.size }} · {{ shoe.get_condition_display }}</p>
+    <p class="price">${{ shoe.asking_price }}</p>
+    {% if shoe.retail_price %}
+      <p class="retail">Retail price: ${{ shoe.retail_price }} ({{ shoe.margin|floatformat:1 }}% margin)</p>
+    {% endif %}
+    {% if shoe.colorway %}
+      <p><strong>Colorway:</strong> {{ shoe.colorway }}</p>
+    {% endif %}
+    <p class="description">{{ shoe.description|linebreaks }}</p>
+    <a class="btn secondary" href="mailto:info@soleswap.example?subject={{ shoe.name|urlencode }} Inquiry">Inquire about this pair</a>
+  </article>
+  <p><a href="{% url 'marketplace:shoe-list' %}">&larr; Back to inventory</a></p>
+{% endblock %}

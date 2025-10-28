@@ -1,0 +1,40 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{{ site_brand|default:"SoleSwap" }} - Sneaker Resale Marketplace</title>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600&display=swap" />
+    <link rel="stylesheet" href="{% static 'css/style.css' %}" />
+  </head>
+  <body>
+    <header class="site-header">
+      <div class="container">
+        <h1 class="brand"><a href="{% url 'marketplace:shoe-list' %}">{{ site_brand|default:"SoleSwap" }}</a></h1>
+        <nav>
+          <a href="{% url 'marketplace:shoe-list' %}">Shop Inventory</a>
+          <a href="{% url 'marketplace:consignment' %}">Sell with Us</a>
+          <a href="https://www.instagram.com" target="_blank" rel="noopener">Follow Us</a>
+        </nav>
+      </div>
+    </header>
+
+    <main class="container">
+      {% if messages %}
+        <ul class="messages">
+          {% for message in messages %}
+            <li class="message {{ message.tags }}">{{ message }}</li>
+          {% endfor %}
+        </ul>
+      {% endif %}
+      {% block content %}{% endblock %}
+    </main>
+
+    <footer class="site-footer">
+      <div class="container">
+        <p>&copy; {% now 'Y' %} {{ site_brand|default:"SoleSwap" }}. All rights reserved.</p>
+      </div>
+    </footer>
+  </body>
+</html>

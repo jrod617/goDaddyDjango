@@ -1,0 +1,9 @@
+{% extends "base.html" %}
+
+{% block content %}
+  <section class="form-section">
+    <h2>Submit a sneaker for consignment</h2>
+    <p>Share a few details about your pair and our team will follow up within 24 hours.</p>
+    {% include "marketplace/includes/listing_form.html" with form=form form_action=request.path %}
+  </section>
+{% endblock %}

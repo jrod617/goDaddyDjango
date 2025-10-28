@@ -1,0 +1,37 @@
+{% extends "base.html" %}
+
+{% block content %}
+  <section class="hero">
+    <h2>Turn your collection into cash without the hassle.</h2>
+    <p>We handle authentication, marketing, and fulfillment so you can focus on sourcing more heat.</p>
+    <a class="btn" href="{% url 'marketplace:listing-create' %}">Start a Listing</a>
+  </section>
+
+  <section class="grid two-column">
+    <div>
+      <h3>How it works</h3>
+      <ol>
+        <li>Tell us about your pair via the submission form.</li>
+        <li>Ship or drop off the sneakers for authentication.</li>
+        <li>We list, promote, and sell on your behalf.</li>
+        <li>Get paid within 48 hours after the sale clears.</li>
+      </ol>
+    </div>
+    <div>
+      <h3>Why sellers choose {{ site_brand }}</h3>
+      <ul>
+        <li>Transparent pricing recommendations driven by market comps.</li>
+        <li>Professional photography and multi-channel marketing.</li>
+        <li>Optional storage to keep your pairs safe until they sell.</li>
+        <li>Dedicated account managers for bulk consignors.</li>
+      </ul>
+    </div>
+  </section>
+
+  <section class="cta">
+    <h3>Ready to consign?</h3>
+    <p>Drop your details below and our team will reach out with next steps.</p>
+    {% url 'marketplace:listing-create' as listing_url %}
+    {% include "marketplace/includes/listing_form.html" with form=form form_action=listing_url %}
+  </section>
+{% endblock %}
